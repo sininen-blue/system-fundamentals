@@ -133,4 +133,79 @@ def decToHex(input):
         return "-" + s
 
 
-print(binToHex(-101011))
+def hexToBin(input):
+    hexbin = {
+        "0": "0000",
+        "1": "0001",
+        "2": "0010",
+        "3": "0011",
+        "4": "0100",
+        "5": "0101",
+        "6": "0110",
+        "7": "0111",
+        "8": "1000",
+        "9": "1001",
+        "A": "1010",
+        "B": "1011",
+        "C": "1100",
+        "D": "1101",
+        "E": "1110",
+        "F": "1111",
+    }
+
+    isNegative = False
+
+    if input[0] == "-":
+        isNegative = True
+        input = input[1:]
+
+    output = ""
+    input = input.upper()
+
+    for number in input:
+        output += hexbin[number]
+
+    if isNegative is False:
+        return int(output)
+    else:
+        return int(output) * -1
+
+
+def hexToDec(input):
+    hexbin = {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "7": 7,
+        "8": 8,
+        "9": 9,
+        "A": 10,
+        "B": 11,
+        "C": 12,
+        "D": 13,
+        "E": 14,
+        "F": 15,
+    }
+
+    isNegative = False
+
+    if input[0] == "-":
+        isNegative = True
+        input = input[1:]
+
+    output = 0
+    input = input.upper()
+
+    numLen = len(input) - 1
+    for number in input:
+        output += hexbin[number] * pow(16, numLen)
+        numLen -= 1
+
+    if isNegative is False:
+        return output
+    else:
+        return output * -1
