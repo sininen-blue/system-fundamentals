@@ -40,6 +40,13 @@ def binToHex(input):
         "1111": "F",
     }
 
+    isNegative = False
+
+    if input < 0:
+        isNegative = True
+
+    input = abs(input)
+
     numList = [int(x) for x in str(input)]
     numList.reverse()
 
@@ -61,7 +68,10 @@ def binToHex(input):
             count = 0
             nibble = []
 
-    return "".join(map(str, reversed(output)))
+    if isNegative is False:
+        return "".join(map(str, output))
+    else:
+        return "-"+"".join(map(str, output))
 
 
 def decToBinary(input):
@@ -84,4 +94,43 @@ def decToBinary(input):
         return int("-" + s)
 
 
-print(binToHex(101100))
+def decToHex(input):
+    decHex = {
+        0: "0",
+        1: "1",
+        2: "2",
+        3: "3",
+        4: "4",
+        5: "5",
+        6: "6",
+        7: "7",
+        8: "8",
+        9: "9",
+        10: "A",
+        11: "B",
+        12: "C",
+        13: "D",
+        14: "E",
+        15: "F",
+    }
+
+    output = []
+    isNegative = False
+
+    if input < 0:
+        isNegative = True
+
+    input = abs(input)
+    while input > 0.0:
+        output.append(decHex[input % 16])
+        input = input // 16
+
+    s = "".join(map(str, reversed(output)))
+
+    if isNegative is False:
+        return s
+    else:
+        return "-" + s
+
+
+print(binToHex(-101011))
