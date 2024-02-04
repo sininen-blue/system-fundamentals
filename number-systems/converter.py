@@ -157,24 +157,31 @@ def decToHex(input):
         14: "E",
         15: "F",
     }
-
-    output = []
+    output = ""
     isNegative = False
-
     if input < 0:
         isNegative = True
+        input = abs(input)
 
-    input = abs(input)
-    while input > 0.0:
-        output.append(decHex[input % 16])
+    isFloat = False
+    if isinstance(input, float):
+        isFloat = True
+        input = input * 16**8
+    input = round(input)
+
+    while input // 16 != 0:
+        remainder = input % 16
+        output = decHex[remainder] + output
         input = input // 16
+    remainder = input % 16
+    output = decHex[remainder] + output
 
-    s = "".join(map(str, reversed(output)))
-
-    if isNegative is False:
-        return s
-    else:
-        return "-" + s
+    if isNegative:
+        output = "-"+output
+    if isFloat:
+        outLen = len(output)
+        output = output[:outLen-8] + "." + output[outLen-8:]
+    return output
 
 
 def hexToBin(input):
@@ -255,4 +262,4 @@ def hexToDec(input):
         return output * -1
 
 
-print(decToBinary(24.12))
+print("output", decToHex(-1411.16))
