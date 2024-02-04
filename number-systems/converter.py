@@ -254,23 +254,29 @@ def hexToDec(input):
     }
 
     isNegative = False
-
     if input[0] == "-":
         isNegative = True
         input = input[1:]
 
     output = 0
     input = input.upper()
+    input = input.split(".")
 
-    numLen = len(input) - 1
-    for number in input:
-        output += hexbin[number] * pow(16, numLen)
-        numLen -= 1
+    integer = input[0]
+    intExp = len(integer) - 1
+    for number in integer:
+        output += hexbin[number] * pow(16, intExp)
+        intExp -= 1
 
-    if isNegative is False:
-        return output
-    else:
-        return output * -1
+    try:
+        fraction = input[1]
+        frcExp = -1
+        for number in fraction:
+            output += hexbin[number] * pow(16, frcExp)
+            frcExp -= 1
+    except IndexError:
+        pass
 
-
-print("output", hexToBin("-12"))
+    if isNegative:
+        output *= -1
+    return output
