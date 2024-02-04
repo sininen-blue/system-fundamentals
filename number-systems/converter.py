@@ -1,23 +1,30 @@
 def binToDecimal(input):
-    isNegative = False
-
     if input < 0:
+        input = abs(input)
         isNegative = True
 
-    input = abs(input)
-
-    numList = [int(x) for x in str(input)]
-    numLen = len(numList) - 1
+    input = str(input).split(".")
     output = 0
 
-    for number in numList:
-        output += number * pow(2, numLen)
-        numLen -= 1
+    integer = input[0]
+    intExp = len(integer)-1
+    for number in integer:
+        output += int(number) * (2 ** intExp)
+        intExp -= 1
 
-    if isNegative is False:
-        return output
-    else:
-        return -output
+    try:
+        fraction = input[1]
+        frcExp = -1
+        for number in fraction:
+            output += int(number) * (2 ** frcExp)
+            frcExp -= 1
+    except IndexError:
+        pass
+
+    if isNegative:
+        output *= -1
+
+    return output
 
 
 def binToHex(input):
@@ -39,8 +46,6 @@ def binToHex(input):
         "1110": "E",
         "1111": "F",
     }
-
-    isNegative = False
 
     if input < 0:
         isNegative = True
@@ -209,3 +214,6 @@ def hexToDec(input):
         return output
     else:
         return output * -1
+
+
+print(binToDecimal(-101101))
