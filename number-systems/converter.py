@@ -1,4 +1,5 @@
 def binToDecimal(input):
+    isNegative = False
     if input < 0:
         input = abs(input)
         isNegative = True
@@ -47,36 +48,54 @@ def binToHex(input):
         "1111": "F",
     }
 
+    isNegative = False
     if input < 0:
+        input = abs(input)
         isNegative = True
 
-    input = abs(input)
+    input = str(input).split(".")
+    output = ""
 
-    numList = [int(x) for x in str(input)]
-    numList.reverse()
-
-    while len(numList) % 4 != 0:
-        numList.append(0)
-    numList.reverse()
-
-    output = []
+    integer = input[0]
+    while len(integer) % 4 != 0:
+        integer = "0" + integer
 
     count = 0
-    nibble = []
-    for number in numList:
-        nibble.append(number)
+    buffer = ""
+    for number in integer:
+        buffer += number
         count += 1
+
         if count == 4:
-            toConvert = "".join(map(str, nibble))
-            output.append(binHex[toConvert])
-
+            output += binHex[buffer]
+            buffer = ""
             count = 0
-            nibble = []
 
-    if isNegative is False:
-        return "".join(map(str, output))
-    else:
-        return "-"+"".join(map(str, output))
+    try:
+        fraction = input[1]
+
+        while len(fraction) % 4 != 0:
+            fraction = fraction + "0"
+
+        count = 0
+        buffer = ""
+
+        output += "."
+        for number in fraction:
+            buffer += number
+            count += 1
+
+            if count == 4:
+                output += binHex[buffer]
+                buffer = ""
+                count = 0
+
+    except IndexError:
+        pass
+
+    if isNegative:
+        output = "-"+output
+    return output
 
 
 def decToBinary(input):
@@ -216,4 +235,3 @@ def hexToDec(input):
         return output * -1
 
 
-print(binToDecimal(-101101))
