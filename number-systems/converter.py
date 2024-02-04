@@ -205,21 +205,32 @@ def hexToBin(input):
     }
 
     isNegative = False
-
     if input[0] == "-":
         isNegative = True
         input = input[1:]
 
-    output = ""
     input = input.upper()
+    input = str(input).split(".")
+    output = ""
 
-    for number in input:
-        output += hexbin[number]
+    integer = input[0]
+    for number in integer:
+        output = output + hexbin[number]
 
-    if isNegative is False:
-        return int(output)
-    else:
-        return int(output) * -1
+    try:
+        fraction = input[1]
+        output = output + "."
+
+        for number in fraction:
+            output = output + hexbin[number]
+
+    except IndexError:
+        pass
+
+    if isNegative:
+        output = float(output) * -1
+
+    return float(output)
 
 
 def hexToDec(input):
@@ -262,4 +273,4 @@ def hexToDec(input):
         return output * -1
 
 
-print("output", decToHex(-1411.16))
+print("output", hexToBin("-12"))
