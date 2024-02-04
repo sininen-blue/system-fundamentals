@@ -8,16 +8,16 @@ def binToDecimal(input):
     output = 0
 
     integer = input[0]
-    intExp = len(integer)-1
+    intExp = len(integer) - 1
     for number in integer:
-        output += int(number) * (2 ** intExp)
+        output += int(number) * (2**intExp)
         intExp -= 1
 
     try:
         fraction = input[1]
         frcExp = -1
         for number in fraction:
-            output += int(number) * (2 ** frcExp)
+            output += int(number) * (2**frcExp)
             frcExp -= 1
     except IndexError:
         pass
@@ -94,28 +94,48 @@ def binToHex(input):
         pass
 
     if isNegative:
-        output = "-"+output
+        output = "-" + output
     return output
 
 
 def decToBinary(input):
-    output = []
     isNegative = False
-
     if input < 0:
         isNegative = True
+        input = abs(input)
 
-    input = abs(input)
-    while input > 0.0:
-        output.append(input % 2)
-        input = input // 2
+    input = str(input).split(".")
+    output = ""
 
-    s = "".join(map(str, reversed(output)))
+    integer = int(input[0])
+    while integer // 2 != 0:
+        output += str(integer % 2)
+        integer = integer // 2
+    output += str(integer % 2)
+    output = output[::-1]  # reverses
 
-    if isNegative is False:
-        return int(s)
-    else:
-        return int("-" + s)
+    try:
+        fraction = float("."+input[1])
+        count = 0
+        bits = 16
+
+        output = str(output) + "."
+        while fraction * 2 != 0 and count <= bits:
+            count += 1
+
+            fraction = fraction * 2
+            if fraction > 1.0:
+                fraction -= 1
+                output += "1"
+            else:
+                output += "0"
+    except IndexError:
+        pass
+
+    output = float(output)
+    if isNegative:
+        output *= -1
+    return output
 
 
 def decToHex(input):
@@ -235,3 +255,4 @@ def hexToDec(input):
         return output * -1
 
 
+print(decToBinary(24.12))
