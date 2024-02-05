@@ -280,3 +280,34 @@ def hexToDec(input):
     if isNegative:
         output *= -1
     return output
+
+
+print("1 bin to hex")
+print("2 bin to dec")
+print("3 dec to bin")
+print("4 dec to hex")
+print("5 hex to bin")
+print("6 hex to dec")
+print("---")
+
+x = input("choose conversion type: ")
+num = input("input number: ")
+match x:
+    case "1":
+        num = float(num)
+        print(binToHex(num))
+    case "2":
+        num = float(num)
+        print(binToDecimal(num))
+    case "3":
+        num = float(num)
+        print(decToBinary(num))
+    case "4":
+        num = float(num)
+        print(decToHex(num))
+    case "5":
+        print(hexToBin(num))
+    case "6":
+        print(hexToDec(num))
+    case _:
+        print("not a valid conversion type")
